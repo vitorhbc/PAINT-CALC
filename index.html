@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Calculadora de Pintura</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2563eb">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+</head>
+<body>
+  <div class="app-container">
+    <header class="header">
+      <h1>Calculadora de Pintura</h1>
+      <p>Área, Mão de Obra & Tintas (Portugal)</p>
+    </header>
+
+    <main class="main-content">
+      <!-- Secção 1: Área -->
+      <section class="card">
+        <h2>1. Cálculo da Área</h2>
+        <div class="toggle-group">
+          <button id="btnDirectArea" class="toggle-btn active" onclick="switchAreaMode('direct')">Área Direta (m²)</button>
+          <button id="btnDimArea" class="toggle-btn" onclick="switchAreaMode('dim')">Por Dimensões</button>
+        </div>
+
+        <div id="directAreaInput" class="input-group">
+          <label for="totalArea">Área Total a Pintar (m²)</label>
+          <input type="number" id="totalArea" placeholder="Ex: 45" value="50" step="0.1" oninput="calculate()">
+        </div>
+
+        <div id="dimAreaInput" class="input-group hidden">
+          <div class="grid-2">
+            <div>
+              <label for="wallWidth">Largura Total (m)</label>
+              <input type="number" id="wallWidth" placeholder="Ex: 10" step="0.1" oninput="calculateDim()">
+            </div>
+            <div>
+              <label for="wallHeight">Altura / Pé Direito (m)</label>
+              <input type="number" id="wallHeight" placeholder="Ex: 2.6" step="0.1" oninput="calculateDim()">
+            </div>
+          </div>
+          <div style="margin-top: 12px;">
+            <label for="deductions">Descontar Portas/Janelas (m²)</label>
+            <input type="number" id="deductions" placeholder="Ex: 4" value="0" step="0.1" oninput="calculateDim()">
+          </div>
+        </div>
+      </section>
+
+      <!-- Secção 2: Tinta -->
+      <section class="card">
+        <h2>2. Consumo de Tinta</h2>
+        <div class="grid-2">
+          <div class="input-group">
+            <label for="coats">Nº de Demãos</label>
+            <select id="coats" onchange="calculate()">
+              <option value="1">1 Demão</option>
+              <option value="2" selected>2 Demãos (Recomendado)</option>
+              <option value="3">3 Demãos</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label for="yield">Rendimento (m²/L)</label>
+            <input type="number" id="yield" value="11" step="0.5" oninput="calculate()">
+            <small class="hint">Tinta plástica mate: ~11 m²/L por demão</small>
+          </div>
+        </div>
+
+        <div class="result-box highlighted">
+          <span>Tinta Necessária:</span>
+          <strong id="litersResult">0.0 Litros</strong>
+        </div>
+      </section>
+
+      <!-- Secção 3: Mão de Obra -->
+      <section class="card">
+        <h2>3. Mão de Obra (Portugal)</h2>
+        <div class="preset-buttons">
+          <button class="preset-btn" onclick="setRate(6.5)">Simples (6.50€/m²)</button>
+          <button class="preset-btn" onclick="setRate(11.0)">Com Preparaç. (11.00€/m²)</button>
+          <button class="preset-btn" onclick="setRate(12.0)">Tetos (12.00€/m²)</button>
+        </div>
+        <div class="input-group">
+          <label for="laborRate">Preço Mão de Obra por m² (€)</label>
+          <input type="number" id="laborRate" value="8.00" step="0.5" oninput="calculate()">
+        </div>
+
+        <div class="result-box">
+          <span>Custo Estimado Mão de Obra:</span>
+          <strong id="laborResult">0.00 €</strong>
+        </div>
+      </section>
+
+      <!-- Resumo Total -->
+      <section class="card summary-card">
+        <h2>Resumo do Serviço</h2>
+        <div class="summary-row">
+          <span>Área Total de Pintura:</span>
+          <span id="summaryArea">0 m²</span>
+        </div>
+        <div class="summary-row">
+          <span>Litros de Tinta Estimados:</span>
+          <span id="summaryLiters">0 L</span>
+        </div>
+        <hr class="divider">
+        <div class="summary-row total">
+          <span>Mão de Obra Prevista:</span>
+          <span id="summaryLaborTotal">0.00 €</span>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
